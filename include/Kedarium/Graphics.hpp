@@ -45,6 +45,48 @@ namespace kdr
       private:
         GLuint ID;
     };
+
+    /**
+     * Represents an OpenGL Vertex Buffer Object (VBO) in the Kedarium Engine.
+     */
+    class VBO
+    {
+      public:
+        /**
+         * Constructs a Vertex Buffer Object (VBO) with the provided vertex data.
+         *
+         * @param vertices An array of GLfloat representing the vertex data.
+         * @param size     The size of the vertex data array in bytes.
+         */
+        VBO(GLfloat vertices[], GLsizeiptr size);
+
+        /**
+         * Retrieves the OpenGL ID of the Vertex Buffer Object (VBO).
+         *
+         * @return The OpenGL ID of the VBO.
+         */
+        const GLuint getID() const
+        { return this->ID; }
+
+        /**
+         * Binds the Vertex Buffer Object (VBO) for use.
+         */
+        void Bind()
+        { glBindBuffer(GL_ARRAY_BUFFER, this->ID); }
+        /**
+         * Unbinds the Vertex Buffer Object (VBO).
+         */
+        void Unbind()
+        { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+        /**
+         * Deletes the Vertex Buffer Object (VBO) from OpenGL memory.
+         */
+        void Delete()
+        { glDeleteBuffers(1, &this->ID); }
+
+      private:
+        GLuint ID;
+    };
   }
 }
 
