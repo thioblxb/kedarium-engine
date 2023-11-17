@@ -1,5 +1,5 @@
-#ifndef KDR_KEDARIUM_HPP
-#define KDR_KEDARIUM_HPP
+#ifndef KDR_CORE_HPP
+#define KDR_CORE_HPP
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -21,4 +21,4 @@ namespace kdr
   }
 }
 
-#endif // KDR_KEDARIUM_HPP
+#endif // KDR_CORE_HPP
