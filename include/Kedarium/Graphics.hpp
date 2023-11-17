@@ -129,6 +129,49 @@ namespace kdr
       private:
         GLuint ID;
     };
+
+    /**
+     * Represents an OpenGL Vertex Array Object (VAO) in the Kedarium Engine.
+     */
+    class VAO
+    {
+      public:
+        /**
+         * Constructs a Vertex Array Object (VAO).
+         */
+        VAO()
+        { glGenVertexArrays(1, &this->ID); }
+
+        /**
+         * Links a Vertex Buffer Object (VBO) to the Vertex Array Object (VAO).
+         *
+         * @param VBO     The VBO to be linked.
+         * @param layout  The layout location in the shader program.
+         * @param size    The number of components per attribute.
+         * @param type    The data type of each component.
+         * @param stride  The stride between consecutive attributes.
+         * @param offset  The offset of the first component in the VBO.
+         */
+        void LinkAtrib(kdr::Graphics::VBO& VBO, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, const void* offset);
+        /**
+         * Binds the Vertex Array Object (VAO) for use.
+         */
+        void Bind()
+        { glBindVertexArray(this->ID); }
+        /**
+         * Unbinds the Vertex Array Object (VAO).
+         */
+        void Unbind()
+        { glBindVertexArray(0); }
+        /**
+         * Deletes the Vertex Array Object (VAO) from OpenGL memory.
+         */
+        void Delete()
+        { glDeleteVertexArrays(1, &this->ID); }
+
+      private:
+        GLuint ID;
+    };
   }
 }
 
