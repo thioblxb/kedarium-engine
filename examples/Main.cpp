@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Kedarium/Core.hpp"
-#include "Kedarium/File.hpp"
+#include "Kedarium/Graphics.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -71,59 +71,11 @@ int main()
   std::cout << '\n';
   kdr::Core::printVersionInfo();
 
-  // Vertex and Fragment Shaders
-  GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-  const std::string vertexShaderSource = kdr::File::getContents("resources/Shaders/default.vert");
-  const std::string fragmentShaderSource = kdr::File::getContents("resources/Shaders/default.frag");
-
-  const char* vertexShaderSourceC = vertexShaderSource.c_str();
-  const char* fragmentShaderSourceC = fragmentShaderSource.c_str();
-
-  glShaderSource(vertexShader, 1, &vertexShaderSourceC, NULL);
-  glShaderSource(fragmentShader, 1, &fragmentShaderSourceC, NULL);
-
-  glCompileShader(vertexShader);
-  glCompileShader(fragmentShader);
-
-  // Validating the Shaders
-  int success {0};
-  char infoLog[512];
-
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-  if (!success)
-  {
-    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    std::cerr << "Failed to compile the vertex shader!\n";
-    std::cerr << "Error: " << infoLog << '\n';
-  }
-
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-  if (!success)
-  {
-    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    std::cerr << "Failed to compile the fragment shader!\n";
-    std::cerr << "Error: " << infoLog << '\n';
-  }
-
   // Shader Program
-  GLuint shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-
-  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-  if (!success)
-  {
-    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    std::cerr << "Failed to compile the link the shader program!\n";
-    std::cerr << "Error: " << infoLog << '\n';
-  }
-
-  // Deleting the Shaders
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
+  kdr::Graphics::Shader defaultShader {
+    "resources/Shaders/default.vert",
+    "resources/Shaders/default.frag"
+  };
 
   // VAO, VBO, and EBO
   GLuint VAO;
@@ -155,7 +107,7 @@ int main()
   {
     glfwPollEvents();
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(shaderProgram);
+    defaultShader.Use();
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, sizeof(vertices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     glfwSwapBuffers(window);
@@ -164,7 +116,7 @@ int main()
   glDeleteVertexArrays(1, &VAO);
   glDeleteBuffers(1, &VBO);
   glDeleteBuffers(1, &EBO);
-  glDeleteProgram(shaderProgram);
+  defaultShader.Delete();
   glfwDestroyWindow(window);
   glfwTerminate();
   return 0;
