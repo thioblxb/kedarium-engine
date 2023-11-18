@@ -143,6 +143,14 @@ namespace kdr
         { glGenVertexArrays(1, &this->ID); }
 
         /**
+         * Retrieves the OpenGL ID of the Vertex Array Object (VAO).
+         *
+         * @return The OpenGL ID of the VAO.
+         */
+        const GLuint getID() const
+        { return this->ID; }
+
+        /**
          * Links a Vertex Buffer Object (VBO) to the Vertex Array Object (VAO).
          *
          * @param VBO     The VBO to be linked.
