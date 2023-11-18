@@ -8,6 +8,7 @@
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Window.hpp"
 #include "Kedarium/Space.hpp"
+#include "Kedarium/Keys.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -56,15 +57,15 @@ class MainWindow : public kdr::Window
   protected:
     void update()
     {
-      if (glfwGetKey(getGlfwWindow(), GLFW_KEY_C) == GLFW_PRESS)
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))
       {
         kdr::Graphics::usePointMode();
       }
-      else if (glfwGetKey(getGlfwWindow(), GLFW_KEY_V) == GLFW_PRESS)
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::V))
       {
         kdr::Graphics::useLineMode();
       }
-      else if (glfwGetKey(getGlfwWindow(), GLFW_KEY_B) == GLFW_PRESS)
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::B))
       {
         kdr::Graphics::useFillmode();
       }
