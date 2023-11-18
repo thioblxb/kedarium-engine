@@ -1,5 +1,10 @@
 #include "Kedarium/Window.hpp"
 
+void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+  glViewport(0, 0, width, height);
+}
+
 kdr::Window::~Window()
 {
   glfwDestroyWindow(glfwWindow);
@@ -44,6 +49,7 @@ const bool kdr::Window::_initializeGlew()
 void kdr::Window::_initializeOpenGLSettings()
 {
   glPointSize(5.f);
+  glfwSetFramebufferSizeCallback(glfwWindow, framebufferSizeCallback);
 }
 
 void kdr::Window::_initialize()

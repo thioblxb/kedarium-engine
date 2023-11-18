@@ -7,6 +7,7 @@
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Window.hpp"
+#include "Kedarium/Space.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -73,6 +74,27 @@ class MainWindow : public kdr::Window
     {
       defaultShader.Use();
       VAO1.Bind();
+
+      kdr::Space::Mat4 model {1.f};
+      kdr::Space::Mat4 view  {1.f};
+      kdr::Space::Mat4 proj  {1.f};
+
+      view = kdr::Space::translate(view, kdr::Space::Vec3(0.0f, 0.f, -3.f));
+      proj = kdr::Space::perspective(
+        kdr::Space::radians(45.f),
+        (float)(WINDOW_WIDTH) / WINDOW_HEIGHT,
+        0.1f,
+        100.f
+      );
+
+      GLuint modelLoc = glGetUniformLocation(defaultShader.getID(), "model");
+      GLuint viewLoc  = glGetUniformLocation(defaultShader.getID(), "view");
+      GLuint projLoc  = glGetUniformLocation(defaultShader.getID(), "proj");
+
+      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
+      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+      glUniformMatrix4fv(projLoc, 1, GL_FALSE, &proj[0][0]);
+
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 
