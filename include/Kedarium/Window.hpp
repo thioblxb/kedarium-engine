@@ -71,6 +71,35 @@ namespace kdr
       virtual ~Window();
 
       /**
+       * Retrieves the GLFW window associated with the Window instance.
+       *
+       * @return A pointer to the GLFW window.
+       */
+      GLFWwindow* getGlfwWindow()
+      { return this->glfwWindow; }
+      /**
+       * Retrieves the width of the window.
+       *
+       * @return The width of the window.
+       */
+      const unsigned int getWidth() const
+      { return this->width; }
+      /**
+       * Retrieves the height of the window.
+       *
+       * @return The height of the window.
+       */
+      const unsigned int getHeight() const
+      { return this->height; }
+      /**
+       * Retrieves the title of the window.
+       *
+       * @return The title of the window.
+       */
+      const std::string getTitle() const
+      { return this->title; }
+
+      /**
        * Starts the main loop for the window.
        */
       void loop();
@@ -112,6 +141,7 @@ namespace kdr
        * @return True if initialization is successful, false otherwise.
        */
       const bool _initializeGlew();
+      void _initializeOpenGLSettings();
       /**
        * Initializes the window.
        */

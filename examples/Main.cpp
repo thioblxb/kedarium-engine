@@ -54,7 +54,20 @@ class MainWindow : public kdr::Window
 
   protected:
     void update()
-    {}
+    {
+      if (glfwGetKey(getGlfwWindow(), GLFW_KEY_C) == GLFW_PRESS)
+      {
+        kdr::Graphics::usePointMode();
+      }
+      else if (glfwGetKey(getGlfwWindow(), GLFW_KEY_V) == GLFW_PRESS)
+      {
+        kdr::Graphics::useLineMode();
+      }
+      else if (glfwGetKey(getGlfwWindow(), GLFW_KEY_B) == GLFW_PRESS)
+      {
+        kdr::Graphics::useFillmode();
+      }
+    }
 
     void render()
     {

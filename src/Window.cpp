@@ -41,6 +41,11 @@ const bool kdr::Window::_initializeGlew()
   return true;
 }
 
+void kdr::Window::_initializeOpenGLSettings()
+{
+  glPointSize(5.f);
+}
+
 void kdr::Window::_initialize()
 {
   _initializeGlfw();
@@ -59,6 +64,7 @@ void kdr::Window::_initialize()
   }
   glfwMakeContextCurrent(glfwWindow);
   _initializeGlew();
+  _initializeOpenGLSettings();
 }
 
 void kdr::Window::_update()
