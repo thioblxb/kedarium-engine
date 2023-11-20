@@ -9,6 +9,7 @@
 #include "Kedarium/Window.hpp"
 #include "Kedarium/Space.hpp"
 #include "Kedarium/Keys.hpp"
+#include "Kedarium/Camera.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -57,6 +58,8 @@ class MainWindow : public kdr::Window
   protected:
     void update()
     {
+      testCamera.updateMatrix();
+
       if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))
       {
         kdr::Graphics::usePointMode();
@@ -74,28 +77,8 @@ class MainWindow : public kdr::Window
     void render()
     {
       defaultShader.Use();
+      testCamera.applyMatrix(defaultShader.getID(), "cameraMatrix");
       VAO1.Bind();
-
-      kdr::Space::Mat4 model {1.f};
-      kdr::Space::Mat4 view  {1.f};
-      kdr::Space::Mat4 proj  {1.f};
-
-      view = kdr::Space::translate(view, kdr::Space::Vec3(0.0f, 0.f, -3.f));
-      proj = kdr::Space::perspective(
-        kdr::Space::radians(45.f),
-        (float)(WINDOW_WIDTH) / WINDOW_HEIGHT,
-        0.1f,
-        100.f
-      );
-
-      GLuint modelLoc = glGetUniformLocation(defaultShader.getID(), "model");
-      GLuint viewLoc  = glGetUniformLocation(defaultShader.getID(), "view");
-      GLuint projLoc  = glGetUniformLocation(defaultShader.getID(), "proj");
-
-      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
-      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-      glUniformMatrix4fv(projLoc, 1, GL_FALSE, &proj[0][0]);
-
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 
@@ -108,6 +91,15 @@ class MainWindow : public kdr::Window
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
+
+    kdr::Camera testCamera {{
+      60.f,
+      (float)WINDOW_WIDTH / WINDOW_HEIGHT,
+      0.1f,
+      100.f,
+      12.f,
+      30.f
+    }};
 };
 
 int main()

@@ -100,6 +100,24 @@ namespace kdr
         {
           return elements[index];
         }
+
+        /**
+         * Multiplies this 4x4 matrix with another matrix.
+         *
+         * @param other The matrix to multiply with.
+         * @return The resulting matrix after multiplication.
+         */
+        Mat4 operator*(const Mat4& other) const {
+          Mat4 result {0.f};
+          for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+              for (int k = 0; k < 4; k++) {
+                result[i][j] += other[i][k] * elements[k][j];
+              }
+            }
+          }
+          return result;
+        }
     };
 
     /**
@@ -109,7 +127,7 @@ namespace kdr
      * @return The equivalent angle in radians.
      */
     static const float radians(const float degrees)
-    { return degrees * 3.14f / 180.f; }
+    { return degrees * 3.1416f / 180.f; }
     /**
      * Translates a 4x4 matrix by a specified 3D vector.
      *
