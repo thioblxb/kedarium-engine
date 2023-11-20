@@ -122,11 +122,12 @@ namespace kdr
       { this->isCursorLocked = locked; }
 
       /**
-       * Handles camera movement based on input received from a GLFW window.
+       * Handles camera movement based on input from a GLFW window.
        *
-       * @param window The GLFW window context providing input for camera movement.
-       */
-      void handleMovement(GLFWwindow* window);
+       * @param window The GLFW window providing input for camera movement.
+       * @param deltaTime The time elapsed between the current and previous frame.
+        */
+      void handleMovement(GLFWwindow* window, const float deltaTime);
       /**
        * Updates the camera matrix based on its position and properties.
        */

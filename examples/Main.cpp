@@ -21,7 +21,7 @@ constexpr float CAMERA_FOV         {60.f};
 constexpr float CAMERA_ASPECT      {(float)WINDOW_WIDTH / WINDOW_HEIGHT};
 constexpr float CAMERA_NEAR        {0.1f};
 constexpr float CAMERA_FAR         {100.f};
-constexpr float CAMERA_SPEED       {0.1f};
+constexpr float CAMERA_SPEED       {3.f};
 constexpr float CAMERA_SENSITIVITY {12.1f};
 
 // Vertices and Indices
@@ -75,7 +75,7 @@ class MainWindow : public kdr::Window
         this->getBoundCamera()->setIsCursorLocked(false);
       }
 
-      this->getBoundCamera()->handleMovement(getGlfwWindow());
+      this->getBoundCamera()->handleMovement(getGlfwWindow(), getDeltaTime());
 
       if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))
       {

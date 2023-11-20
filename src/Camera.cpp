@@ -1,6 +1,6 @@
 #include "Kedarium/Camera.hpp"
 
-void kdr::Camera::handleMovement(GLFWwindow* window)
+void kdr::Camera::handleMovement(GLFWwindow* window, const float deltaTime)
 {
   _updateCursor(window);
   if (!isCursorLocked) {
@@ -9,27 +9,27 @@ void kdr::Camera::handleMovement(GLFWwindow* window)
 
   if (kdr::Keys::isPressed(window, kdr::Key::W))
   {
-    position += front * speed;
+    position += front * speed * deltaTime;
   }
   if (kdr::Keys::isPressed(window, kdr::Key::S))
   {
-    position -= front * speed;
+    position -= front * speed * deltaTime;
   }
   if (kdr::Keys::isPressed(window, kdr::Key::A))
   {
-    position += kdr::Space::normalize(kdr::Space::cross(front, up)) * speed;
+    position += kdr::Space::normalize(kdr::Space::cross(front, up)) * speed * deltaTime;
   }
   if (kdr::Keys::isPressed(window, kdr::Key::D))
   {
-    position -= kdr::Space::normalize(kdr::Space::cross(front, up)) * speed;
+    position -= kdr::Space::normalize(kdr::Space::cross(front, up)) * speed * deltaTime;
   }
   if (kdr::Keys::isPressed(window, kdr::Key::Spacebar))
   {
-    position.y += speed;
+    position.y += speed * deltaTime;
   }
   if (kdr::Keys::isPressed(window, kdr::Key::LeftShift))
   {
-    position.y -= speed;
+    position.y -= speed * deltaTime;
   }
 }
 

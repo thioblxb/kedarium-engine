@@ -102,6 +102,13 @@ namespace kdr
       const std::string getTitle() const
       { return this->title; }
       /**
+       * Retrieves the time elapsed between the current and previous frame.
+       *
+       * @return The time elapsed between the current and previous frame in seconds.
+       */
+      const float getDeltaTime() const
+      { return this->deltaTime; }
+      /**
        * Retrieves the currently bound camera for the window.
        *
        * @return A pointer to the bound Camera object.
@@ -153,6 +160,9 @@ namespace kdr
       unsigned int height {600};
       std::string  title  {"Kedarium Engine"};
 
+      float lastTime  {(float)glfwGetTime()};
+      float deltaTime {0.f};
+
       GLuint       boundShaderID {0};
       kdr::Camera* boundCamera   {NULL};
 
@@ -176,6 +186,10 @@ namespace kdr
        * Initializes the window.
        */
       void _initialize();
+      /**
+       * Updates the time difference between the current and previous frames.
+       */
+      void _updateDeltaTime();
       /**
        * Updates the associated camera in the window.
        */
