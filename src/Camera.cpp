@@ -2,6 +2,11 @@
 
 void kdr::Camera::handleMovement(GLFWwindow* window)
 {
+  _updateCursor(window);
+  if (!isCursorLocked) {
+    return;
+  }
+
   if (kdr::Keys::isPressed(window, kdr::Key::W))
   {
     position += front * speed;
@@ -52,4 +57,15 @@ void kdr::Camera::applyMatrix(const GLuint shaderID, const char* uniformName)
 {
   GLuint matrixLoc = glGetUniformLocation(shaderID, uniformName);
   glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, &matrix[0][0]);
+}
+
+void kdr::Camera::_updateCursor(GLFWwindow* window)
+{
+  glfwSetInputMode(
+    window,
+    GLFW_CURSOR,
+    isCursorLocked
+      ? GLFW_CURSOR_DISABLED
+      : GLFW_CURSOR_NORMAL
+  );
 }

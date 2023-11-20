@@ -66,6 +66,15 @@ class MainWindow : public kdr::Window
   protected:
     void update()
     {
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::E))
+      {
+        this->getBoundCamera()->setIsCursorLocked(true);
+      }
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::Escape))
+      {
+        this->getBoundCamera()->setIsCursorLocked(false);
+      }
+
       this->getBoundCamera()->handleMovement(getGlfwWindow());
 
       if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))

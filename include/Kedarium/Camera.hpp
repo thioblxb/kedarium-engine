@@ -98,6 +98,13 @@ namespace kdr
        */
       const float getSensitivity() const
       { return this->sensitivity; }
+      /**
+       * Retrieves the lock state of the camera's cursor.
+       *
+       * @return True if the cursor is locked, false otherwise.
+       */
+      const bool getIsCursorLocked() const
+      { return this->isCursorLocked; }
 
       /**
      * Sets the aspect ratio of the camera.
@@ -106,6 +113,13 @@ namespace kdr
      */
       void setAspect(const float aspect)
       { this->aspect = aspect; }
+      /**
+       * Sets the lock state of the camera's cursor.
+       *
+       * @param locked True to lock the cursor, false to unlock.
+       */
+      void setIsCursorLocked(const bool locked)
+      { this->isCursorLocked = locked; }
 
       /**
        * Handles camera movement based on input received from a GLFW window.
@@ -140,6 +154,14 @@ namespace kdr
 
       float yaw   {0.f};
       float pitch {0.f};
+
+      bool isCursorLocked {false};
+      /**
+       * Updates the cursor state based on the lock status.
+       *
+       * @param window The GLFW window to update the cursor for.
+       */
+      void _updateCursor(GLFWwindow* window);
   };
 }
 
