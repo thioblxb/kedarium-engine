@@ -8,6 +8,11 @@ namespace kdr
   namespace Space
   {
     /**
+     * Represents the mathematical constant Pi (π), approximately equal to 3.141593.
+     */
+    const float pi = 3.141593f;
+
+    /**
      * Represents a 3D vector with components x, y, and z.
      */
     class Vec3
@@ -203,7 +208,7 @@ namespace kdr
      * @return The equivalent angle in radians.
      */
     static const float radians(const float degrees)
-    { return degrees * 3.1416f / 180.f; }
+    { return degrees * pi / 180.f; }
     /**
      * Normalizes a 3D vector.
      *

@@ -47,7 +47,7 @@ kdr::Space::Mat4 kdr::Space::perspective(const float fov, const float aspect, co
 
 kdr::Space::Mat4 kdr::Space::lookAt(const kdr::Space::Vec3& eye, const kdr::Space::Vec3& target, const kdr::Space::Vec3& up)
 {
-  kdr::Space::Vec3 front = kdr::Space::normalize(target - eye);
+  kdr::Space::Vec3 front = kdr::Space::normalize(eye - target);
   kdr::Space::Vec3 right = kdr::Space::normalize(kdr::Space::cross(up, front));
   kdr::Space::Vec3 newUp = kdr::Space::cross(front, right);
 
@@ -58,11 +58,12 @@ kdr::Space::Mat4 kdr::Space::lookAt(const kdr::Space::Vec3& eye, const kdr::Spac
   viewMatrix[0][1] = newUp.x;
   viewMatrix[1][1] = newUp.y;
   viewMatrix[2][1] = newUp.z;
-  viewMatrix[0][2] = -front.x;
-  viewMatrix[1][2] = -front.y;
-  viewMatrix[2][2] = -front.z;
+  viewMatrix[0][2] = front.x;
+  viewMatrix[1][2] = front.y;
+  viewMatrix[2][2] = front.z;
   viewMatrix[3][0] = -kdr::Space::dot(right, eye);
   viewMatrix[3][1] = -kdr::Space::dot(newUp, eye);
-  viewMatrix[3][2] = kdr::Space::dot(front, eye);
+  viewMatrix[3][2] = -kdr::Space::dot(front, eye);
+  viewMatrix[3][3] = 1.f;
   return viewMatrix;
 }

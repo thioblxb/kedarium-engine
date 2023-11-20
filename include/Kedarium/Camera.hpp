@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 #include "Keys.hpp"
 #include "Space.hpp"
@@ -150,10 +151,10 @@ namespace kdr
       float aspect      {1.f};
       float near        {0.1f};
       float far         {100.f};
-      float speed       {1.f};
-      float sensitivity {10.f};
+      float speed       {3.f};
+      float sensitivity {24.f};
 
-      float yaw   {0.f};
+      float yaw   {-90.f};
       float pitch {0.f};
 
       bool isCursorLocked {false};
