@@ -1,12 +1,43 @@
 #include "Kedarium/Camera.hpp"
-#include <iostream>
+
+void kdr::Camera::handleMovement(GLFWwindow* window)
+{
+  if (kdr::Keys::isPressed(window, kdr::Key::W))
+  {
+    position += front * speed;
+  }
+  if (kdr::Keys::isPressed(window, kdr::Key::S))
+  {
+    position -= front * speed;
+  }
+  if (kdr::Keys::isPressed(window, kdr::Key::A))
+  {
+    position += kdr::Space::normalize(kdr::Space::cross(front, up)) * speed;
+  }
+  if (kdr::Keys::isPressed(window, kdr::Key::D))
+  {
+    position -= kdr::Space::normalize(kdr::Space::cross(front, up)) * speed;
+  }
+  if (kdr::Keys::isPressed(window, kdr::Key::Spacebar))
+  {
+    position.y += speed;
+  }
+  if (kdr::Keys::isPressed(window, kdr::Key::LeftShift))
+  {
+    position.y -= speed;
+  }
+}
 
 void kdr::Camera::updateMatrix()
 {
   kdr::Space::Mat4 view {1.f};
   kdr::Space::Mat4 proj {1.f};
 
-  view = kdr::Space::translate(view, position);
+  view = kdr::Space::lookAt(
+    position,
+    position + front,
+    up
+  );
   proj = kdr::Space::perspective(
     kdr::Space::radians(fov),
     aspect,

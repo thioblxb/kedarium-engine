@@ -23,6 +23,15 @@ namespace kdr
         Vec3()
         {}
         /**
+         * Parameterized constructor for Vec3 with a scalar value.
+         *
+         * @param scalar The scalar value to initialize all components.
+         */
+        Vec3(
+          const float scalar
+        ) : x(scalar), y(scalar), z(scalar)
+        {}
+        /**
          * Parameterized constructor for Vec3.
          *
          * @param x The x-component of the vector.
@@ -35,6 +44,73 @@ namespace kdr
           const float z
         ) : x(x), y(y), z(z)
         {}
+
+         /**
+         * Multiplication operator for Vec3 with an integer scalar.
+         *
+         * @param scalar The scalar value for multiplication.
+         * @return A new Vec3 resulting from the scalar multiplication.
+         */
+        Vec3 operator*(int scalar) const
+        { return Vec3(x * scalar, y * scalar, z * scalar); }
+        /**
+         * Multiplication operator for Vec3 with a float scalar.
+         *
+         * @param scalar The scalar value for multiplication.
+         * @return A new Vec3 resulting from the scalar multiplication.
+         */
+        Vec3 operator*(float scalar) const
+        { return Vec3(x * scalar, y * scalar, z * scalar); }
+        /**
+         * Multiplication operator for Vec3 with a double scalar.
+         *
+         * @param scalar The scalar value for multiplication.
+         * @return A new Vec3 resulting from the scalar multiplication.
+         */
+        Vec3 operator*(double scalar) const
+        { return Vec3(x * scalar, y * scalar, z * scalar); }
+
+        /**
+         * Addition operator for Vec3 with another Vec3.
+         *
+         * @param other The Vec3 to be added.
+         * @return A new Vec3 resulting from the vector addition.
+         */
+        Vec3 operator+(const Vec3& other) const
+        { return Vec3(x + other.x, y + other.y, z + other.z); }
+        /**
+         * Subtraction operator for Vec3 with another Vec3.
+         *
+         * @param other The Vec3 to be subtracted.
+         * @return A new Vec3 resulting from the vector subtraction.
+         */
+        Vec3 operator-(const Vec3& other) const
+        { return Vec3(x - other.x, y - other.y, z - other.z); }
+
+        /**
+         * Compound addition operator for Vec3 with another Vec3.
+         *
+         * @param other The Vec3 to be added.
+         * @return A reference to the modified Vec3 after the addition.
+         */
+        Vec3& operator+=(const Vec3& other) {
+          x += other.x;
+          y += other.y;
+          z += other.z;
+          return *this;
+        }
+        /**
+         * Compound subtraction operator for Vec3 with another Vec3.
+         *
+         * @param other The Vec3 to be subtracted.
+         * @return A reference to the modified Vec3 after the subtraction.
+         */
+        Vec3& operator-=(const Vec3& other) {
+          x -= other.x;
+          y -= other.y;
+          z -= other.z;
+          return *this;
+        }
     };
 
     /**
@@ -129,6 +205,29 @@ namespace kdr
     static const float radians(const float degrees)
     { return degrees * 3.1416f / 180.f; }
     /**
+     * Normalizes a 3D vector.
+     *
+     * @param vector The vector to be normalized.
+     * @return A normalized vector. If the input vector has zero length, the result is a zero vector.
+     */
+    kdr::Space::Vec3 normalize(const kdr::Space::Vec3& vector);
+    /**
+     * Calculates the cross product of two 3D vectors.
+     *
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The cross product vector.
+     */
+    kdr::Space::Vec3 cross(const kdr::Space::Vec3& a, const kdr::Space::Vec3& b);
+    /**
+     * Calculates the dot product of two 3D vectors.
+     *
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The dot product.
+     */
+    float dot(const kdr::Space::Vec3& a, const kdr::Space::Vec3& b);
+    /**
      * Translates a 4x4 matrix by a specified 3D vector.
      *
      * @param mat The input 4x4 matrix.
@@ -146,6 +245,15 @@ namespace kdr
      * @return A 4x4 matrix representing the perspective projection.
      */
     kdr::Space::Mat4 perspective(const float fov, const float aspect, const float near, const float far);
+    /**
+     * Creates a view matrix for a camera looking at a specified target position.
+     *
+     * @param eye The position of the camera.
+     * @param target The position the camera is looking at.
+     * @param up The up direction of the camera.
+     * @return The view matrix.
+     */
+    kdr::Space::Mat4 lookAt(const kdr::Space::Vec3& eye, const kdr::Space::Vec3& target, const kdr::Space::Vec3& up);
   }
 }
 

@@ -2,7 +2,9 @@
 #define KDR_CAMERA_HPP
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
+#include "Keys.hpp"
 #include "Space.hpp"
 
 namespace kdr
@@ -106,6 +108,12 @@ namespace kdr
       { this->aspect = aspect; }
 
       /**
+       * Handles camera movement based on input received from a GLFW window.
+       *
+       * @param window The GLFW window context providing input for camera movement.
+       */
+      void handleMovement(GLFWwindow* window);
+      /**
        * Updates the camera matrix based on its position and properties.
        */
       void updateMatrix();
@@ -118,15 +126,20 @@ namespace kdr
       void applyMatrix(const GLuint shaderID, const char* uniformName);
 
     private:
-      kdr::Space::Vec3 position {0.f, 0.f, -3.f};
+      kdr::Space::Vec3 position {0.f, 0.f,  3.f};
+      kdr::Space::Vec3 front    {0.f, 0.f, -1.f};
+      kdr::Space::Vec3 up       {0.f, 1.f,  0.f};
       kdr::Space::Mat4 matrix   {1.f};
 
       float fov         {60.f};
       float aspect      {1.f};
       float near        {0.1f};
       float far         {100.f};
-      float speed       {3.f};
+      float speed       {1.f};
       float sensitivity {10.f};
+
+      float yaw   {0.f};
+      float pitch {0.f};
   };
 }
 
