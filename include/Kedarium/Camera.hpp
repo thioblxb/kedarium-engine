@@ -98,6 +98,14 @@ namespace kdr
       { return this->sensitivity; }
 
       /**
+     * Sets the aspect ratio of the camera.
+     *
+     * @param aspect New aspect ratio for the camera.
+     */
+      void setAspect(const float aspect)
+      { this->aspect = aspect; }
+
+      /**
        * Updates the camera matrix based on its position and properties.
        */
       void updateMatrix();

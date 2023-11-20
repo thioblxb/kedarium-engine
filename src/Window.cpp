@@ -2,6 +2,8 @@
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
+  kdr::Window* appWindow = (kdr::Window*)glfwGetWindowUserPointer(window);
+  appWindow->getBoundCamera()->setAspect((float)width / height);
   glViewport(0, 0, width, height);
 }
 
@@ -69,14 +71,25 @@ void kdr::Window::_initialize()
     return;
   }
   glfwMakeContextCurrent(glfwWindow);
+  glfwSetWindowUserPointer(glfwWindow, this);
   _initializeGlew();
   _initializeOpenGLSettings();
+}
+
+void kdr::Window::_updateCamera()
+{
+  if (boundShaderID == 0) return;
+  if (boundCamera == NULL) return;
+
+  boundCamera->updateMatrix();
+  boundCamera->applyMatrix(boundShaderID, "cameraMatrix");
 }
 
 void kdr::Window::_update()
 {
   glfwPollEvents();
   update();
+  _updateCamera();
 }
 
 void kdr::Window::_render()

@@ -11,10 +11,18 @@
 #include "Kedarium/Keys.hpp"
 #include "Kedarium/Camera.hpp"
 
-// Constants
-const unsigned int WINDOW_WIDTH  {800};
-const unsigned int WINDOW_HEIGHT {600};
-const std::string  WINDOW_TITLE  {"Kedarium Engine"};
+// Window Settings
+constexpr unsigned int WINDOW_WIDTH  {800};
+constexpr unsigned int WINDOW_HEIGHT {600};
+const    std::string   WINDOW_TITLE  {"Kedarium Engine"};
+
+// Camera Settings
+constexpr float CAMERA_FOV         {60.f};
+constexpr float CAMERA_ASPECT      {(float)WINDOW_WIDTH / WINDOW_HEIGHT};
+constexpr float CAMERA_NEAR        {0.1f};
+constexpr float CAMERA_FAR         {100.f};
+constexpr float CAMERA_SPEED       {3.f};
+constexpr float CAMERA_SENSITIVITY {12.1f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
@@ -58,8 +66,6 @@ class MainWindow : public kdr::Window
   protected:
     void update()
     {
-      testCamera.updateMatrix();
-
       if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))
       {
         kdr::Graphics::usePointMode();
@@ -76,8 +82,7 @@ class MainWindow : public kdr::Window
 
     void render()
     {
-      defaultShader.Use();
-      testCamera.applyMatrix(defaultShader.getID(), "cameraMatrix");
+      bindShader(defaultShader);
       VAO1.Bind();
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
@@ -91,15 +96,6 @@ class MainWindow : public kdr::Window
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
-
-    kdr::Camera testCamera {{
-      60.f,
-      (float)WINDOW_WIDTH / WINDOW_HEIGHT,
-      0.1f,
-      100.f,
-      12.f,
-      30.f
-    }};
 };
 
 int main()
@@ -119,6 +115,17 @@ int main()
     WINDOW_HEIGHT,
     WINDOW_TITLE.c_str()
   };
+
+  // Camera
+  kdr::Camera mainCamera {{
+    CAMERA_FOV,
+    CAMERA_ASPECT,
+    CAMERA_NEAR,
+    CAMERA_FAR,
+    CAMERA_SPEED,
+    CAMERA_SENSITIVITY
+  }};
+  mainWindow.setBoundCamera(&mainCamera);
 
   // Engine and Version Info
   kdr::Core::printEngineInfo();

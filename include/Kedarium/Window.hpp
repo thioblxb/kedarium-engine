@@ -6,6 +6,9 @@
 #include <iostream>
 #include <string>
 
+#include "Graphics.hpp"
+#include "Camera.hpp"
+
 namespace kdr
 {
   /**
@@ -98,6 +101,21 @@ namespace kdr
        */
       const std::string getTitle() const
       { return this->title; }
+      /**
+       * Retrieves the currently bound camera for the window.
+       *
+       * @return A pointer to the bound Camera object.
+       */
+      kdr::Camera* getBoundCamera() const
+      { return this->boundCamera; }
+
+      /**
+       * Sets the currently bound camera for the window.
+       *
+       * @param camera A pointer to the Camera object to be bound.
+       */
+      void setBoundCamera(kdr::Camera* camera)
+      { this->boundCamera = camera; }
 
       /**
        * Starts the main loop for the window.
@@ -122,12 +140,21 @@ namespace kdr
        */
       virtual void render() = 0;
 
+      void bindShader(kdr::Graphics::Shader& shader)
+      {
+        shader.Use();
+        boundShaderID = shader.getID();
+      }
+
     private:
       GLFWwindow* glfwWindow {NULL};
 
       unsigned int width  {800};
       unsigned int height {600};
       std::string  title  {"Kedarium Engine"};
+
+      GLuint       boundShaderID {0};
+      kdr::Camera* boundCamera   {NULL};
 
       /**
        * Initializes GLFW for the window.
@@ -141,11 +168,18 @@ namespace kdr
        * @return True if initialization is successful, false otherwise.
        */
       const bool _initializeGlew();
+      /**
+       * Initializes OpenGL settings for the window.
+       */
       void _initializeOpenGLSettings();
       /**
        * Initializes the window.
        */
       void _initialize();
+      /**
+       * Updates the associated camera in the window.
+       */
+      void _updateCamera();
       /**
        * Updates the window state.
        */
