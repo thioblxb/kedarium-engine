@@ -26,6 +26,38 @@ void kdr::Window::close()
   glfwSetWindowShouldClose(glfwWindow, GLFW_TRUE);
 }
 
+void kdr::Window::maximize()
+{
+  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  glfwSetWindowMonitor(
+    glfwWindow,
+    monitor,
+    0,
+    0,
+    mode->width,
+    mode->height,
+    mode->refreshRate
+  );
+  isFullscreenOn = true;
+}
+
+void kdr::Window::unmaximize()
+{
+  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  glfwSetWindowMonitor(
+    glfwWindow,
+    NULL,
+    0,
+    0,
+    width,
+    height,
+    mode->refreshRate
+  );
+  isFullscreenOn = false;
+}
+
 const bool kdr::Window::_initializeGlfw()
 {
   glfwInit();

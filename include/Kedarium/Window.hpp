@@ -115,6 +115,13 @@ namespace kdr
        */
       kdr::Camera* getBoundCamera() const
       { return this->boundCamera; }
+      /**
+       * Retrieves the fullscreen state of the window.
+       *
+       * @return True if the window is in fullscreen mode, false otherwise.
+       */
+      const bool getIsFullscreenOn() const
+      { return this->isFullscreenOn; }
 
       /**
        * Sets the currently bound camera for the window.
@@ -132,6 +139,14 @@ namespace kdr
        * Closes the window.
        */
       void close();
+      /**
+       * Maximizes the window to fill the entire screen.
+       */
+      void maximize();
+      /**
+       * Restores the window to its original size and position.
+       */
+      void unmaximize();
 
     protected:
       /**
@@ -165,6 +180,8 @@ namespace kdr
 
       GLuint       boundShaderID {0};
       kdr::Camera* boundCamera   {NULL};
+
+      bool isFullscreenOn {false};
 
       /**
        * Initializes GLFW for the window.

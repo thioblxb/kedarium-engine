@@ -89,6 +89,21 @@ class MainWindow : public kdr::Window
       {
         kdr::Graphics::useFillmode();
       }
+
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::F))
+      {
+        if (canUseFullscreen)
+        {
+          getIsFullscreenOn()
+            ? unmaximize()
+            : maximize();
+        }
+        canUseFullscreen = false;
+      }
+      else
+      {
+        canUseFullscreen = true;
+      }
     }
 
     void render()
@@ -107,6 +122,8 @@ class MainWindow : public kdr::Window
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
+
+    bool canUseFullscreen {true};
 };
 
 int main()
