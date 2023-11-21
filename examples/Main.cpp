@@ -7,11 +7,22 @@
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Window.hpp"
+#include "Kedarium/Space.hpp"
+#include "Kedarium/Keys.hpp"
+#include "Kedarium/Camera.hpp"
 
-// Constants
-const unsigned int WINDOW_WIDTH  {800};
-const unsigned int WINDOW_HEIGHT {600};
-const std::string  WINDOW_TITLE  {"Kedarium Engine"};
+// Window Settings
+constexpr unsigned int WINDOW_WIDTH  {800};
+constexpr unsigned int WINDOW_HEIGHT {600};
+const    std::string   WINDOW_TITLE  {"Kedarium Engine"};
+
+// Camera Settings
+constexpr float CAMERA_FOV         {60.f};
+constexpr float CAMERA_ASPECT      {(float)WINDOW_WIDTH / WINDOW_HEIGHT};
+constexpr float CAMERA_NEAR        {0.1f};
+constexpr float CAMERA_FAR         {100.f};
+constexpr float CAMERA_SPEED       {3.f};
+constexpr float CAMERA_SENSITIVITY {24.f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
@@ -54,11 +65,50 @@ class MainWindow : public kdr::Window
 
   protected:
     void update()
-    {}
+    {
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::E))
+      {
+        this->getBoundCamera()->setIsCursorLocked(true);
+      }
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::Escape))
+      {
+        this->getBoundCamera()->setIsCursorLocked(false);
+      }
+
+      this->getBoundCamera()->handleMovement(getGlfwWindow(), getDeltaTime());
+
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::C))
+      {
+        kdr::Graphics::usePointMode();
+      }
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::V))
+      {
+        kdr::Graphics::useLineMode();
+      }
+      else if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::B))
+      {
+        kdr::Graphics::useFillmode();
+      }
+
+      if (kdr::Keys::isPressed(getGlfwWindow(), kdr::Key::F))
+      {
+        if (canUseFullscreen)
+        {
+          getIsFullscreenOn()
+            ? unmaximize()
+            : maximize();
+        }
+        canUseFullscreen = false;
+      }
+      else
+      {
+        canUseFullscreen = true;
+      }
+    }
 
     void render()
     {
-      defaultShader.Use();
+      bindShader(defaultShader);
       VAO1.Bind();
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
@@ -72,6 +122,8 @@ class MainWindow : public kdr::Window
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
+
+    bool canUseFullscreen {true};
 };
 
 int main()
@@ -91,6 +143,17 @@ int main()
     WINDOW_HEIGHT,
     WINDOW_TITLE.c_str()
   };
+
+  // Camera
+  kdr::Camera mainCamera {{
+    CAMERA_FOV,
+    CAMERA_ASPECT,
+    CAMERA_NEAR,
+    CAMERA_FAR,
+    CAMERA_SPEED,
+    CAMERA_SENSITIVITY
+  }};
+  mainWindow.setBoundCamera(&mainCamera);
 
   // Engine and Version Info
   kdr::Core::printEngineInfo();

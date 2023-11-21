@@ -10,6 +10,19 @@ namespace kdr
   namespace Graphics
   {
     /**
+     * Sets the rendering mode to point mode, rendering only the vertices as points.
+     */
+    void usePointMode();
+    /**
+     * Sets the rendering mode to line mode, rendering the edges of polygons as lines.
+     */
+    void useLineMode();
+    /**
+     * Sets the rendering mode to fill mode, rendering the interior of polygons with color.
+     */
+    void useFillmode();
+
+    /**
      * Represents an OpenGL shader program in the Kedarium Engine.
      */
     class Shader
