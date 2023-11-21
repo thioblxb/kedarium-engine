@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "Kedarium/Core.hpp"
 #include "Kedarium/Graphics.hpp"
@@ -48,7 +49,19 @@ class MainWindow : public kdr::Window
     }
 
     void setup()
-    {}
+    {
+      for (int z = 0; z < 3; z++)
+      {
+        for (int x = 0; x < 3; x++)
+        {
+          kdr::Solids::Cube* cube = new kdr::Solids::Cube(
+            {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
+            1.f
+          );
+          cubes.push_back(cube);
+        }
+      }
+    }
 
   protected:
     void update()
@@ -96,7 +109,10 @@ class MainWindow : public kdr::Window
     void render()
     {
       bindShader(defaultShader);
-      cube.Render();
+      for (kdr::Solids::Cube* cube : cubes)
+      {
+        cube->Render(defaultShader.getID());
+      }
     }
 
   private:
@@ -104,10 +120,7 @@ class MainWindow : public kdr::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
-    kdr::Solids::Cube cube {
-      {0.f, 0.f, 0.f},
-      5.f
-    };
+    std::vector<kdr::Solids::Cube*> cubes;
 
     bool canUseFullscreen {true};
 };

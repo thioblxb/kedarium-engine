@@ -30,19 +30,28 @@ namespace kdr
         virtual ~Solid();
 
         /**
-         * Renders the solid object.
+         * Renders the solid object using a specified shader program.
          *
          * This is a pure virtual function, and it should be implemented by derived classes
-         * to define how the solid object is rendered.
+         * to define how the solid object is rendered with a specific shader program.
+         *
+         * @param shaderID The ID of the shader program used for rendering.
          */
-        virtual void Render() = 0;
+        virtual void Render(const GLuint shaderID) = 0;
 
       protected:
         kdr::Space::Vec3 position;
 
+        kdr::Graphics::VAO* VAO {NULL};
         kdr::Graphics::VBO* VBO {NULL};
         kdr::Graphics::EBO* EBO {NULL};
-        kdr::Graphics::VAO* VAO {NULL};
+
+        /**
+         * Applies the position of the solid to a shader uniform variable.
+         *
+         * @param shaderID The ID of the shader program where the model matrix is updated.
+         */
+        void _applyPosition(const GLuint shaderID);
     };
 
     /**
@@ -60,9 +69,11 @@ namespace kdr
         Cube(const kdr::Space::Vec3& position, const float edgeLength);
 
         /**
-         * Renders the cube.
+         * Renders the cube using a specified shader program.
+         *
+         * @param shaderID The ID of the shader program used for rendering.
          */
-        void Render();
+        void Render(const GLuint shaderID);
     };
   }
 }

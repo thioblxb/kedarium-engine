@@ -29,7 +29,6 @@ namespace kdr
     ) : fov(fov), aspect(aspect), near(near), far(far), speed(speed), sensitivity(sensitivity)
     {}
   };
-  
 
   class Camera
   {

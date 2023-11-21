@@ -11,6 +11,14 @@ kdr::Solids::Solid::~Solid()
   delete EBO;
 }
 
+void kdr::Solids::Solid::_applyPosition(const GLuint shaderID)
+{
+  kdr::Space::Mat4 model {1.f};
+  model = kdr::Space::translate(model, position);
+  GLuint modelLoc = glGetUniformLocation(shaderID, "model");
+  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
+}
+
 GLuint cubeIndices[] = {
   1, 0, 3, // Front
   2, 3, 0, // Front
@@ -55,9 +63,10 @@ kdr::Solids::Cube::Cube(const kdr::Space::Vec3& position, const float edgeLength
   EBO->Unbind();
 }
 
-void kdr::Solids::Cube::Render()
+void kdr::Solids::Cube::Render(const GLuint shaderID)
 {
   VAO->Bind();
+  _applyPosition(shaderID);
   glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
   VAO->Unbind();
 }
