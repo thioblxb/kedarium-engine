@@ -84,6 +84,7 @@ void kdr::Window::_initializeOpenGLSettings()
 {
   glPointSize(5.f);
   glfwSetFramebufferSizeCallback(glfwWindow, framebufferSizeCallback);
+  glEnable(GL_DEPTH_TEST);
 }
 
 void kdr::Window::_initialize()
@@ -135,7 +136,7 @@ void kdr::Window::_update()
 
 void kdr::Window::_render()
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   render();
   glfwSwapBuffers(glfwWindow);
 }
