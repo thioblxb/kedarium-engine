@@ -17,7 +17,7 @@ namespace kdr
      * @return A string containing the contents of the file. If the file cannot be opened,
      *         an error message is printed to the standard error stream, and an empty string is returned.
      */
-    const std::string getContents(const char* path);
+    const std::string getContents(const std::string& path);
   }
 }
 

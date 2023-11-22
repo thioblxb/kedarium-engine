@@ -82,9 +82,9 @@ void kdr::Camera::updateMatrix()
   matrix = proj * view;
 }
 
-void kdr::Camera::applyMatrix(const GLuint shaderID, const char* uniformName)
+void kdr::Camera::applyMatrix(const GLuint shaderID, const std::string& uniformName)
 {
-  GLuint matrixLoc = glGetUniformLocation(shaderID, uniformName);
+  GLuint matrixLoc = glGetUniformLocation(shaderID, uniformName.c_str());
   glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, &matrix[0][0]);
 }
 

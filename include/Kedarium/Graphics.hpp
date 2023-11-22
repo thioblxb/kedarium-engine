@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 
 #include "File.hpp"
+#include "Image.hpp"
 
 namespace kdr
 {
@@ -34,7 +35,7 @@ namespace kdr
          * @param vertexPath   The path to the vertex shader file.
          * @param fragmentPath The path to the fragment shader file.
          */
-        Shader(const char* vertexPath, const char* fragmentPath);
+        Shader(const std::string& vertexPath, const std::string& fragmentPath);
 
         /**
          * Retrieves the OpenGL ID of the shader program.
@@ -192,6 +193,64 @@ namespace kdr
 
       private:
         GLuint ID;
+    };
+
+    /**
+     * Represents an OpenGL texture.
+     */
+    class Texture
+    {
+      public:
+        /**
+         * Constructs a Texture object from an image file.
+         *
+         * @param path The path to the image file to load as a texture.
+         * @param type The type of texture (e.g., GL_TEXTURE_2D).
+         * @param slot The texture slot to which the texture will be bound.
+         * @param format The internal format of the texture data.
+         * @param pixelType The pixel data type of the texture.
+         */
+        Texture(const std::string& path, GLenum type, GLenum slot, GLenum format, GLenum pixelType);
+        /**
+         * Destructor for the Texture class.
+         */
+        ~Texture();
+
+        /**
+         * Retrieves the OpenGL ID of the texture.
+         *
+         * @return The OpenGL ID of the texture.
+         */
+        const GLuint getID() const
+        { return this->ID; }
+
+        /**
+         * Sets the texture unit for a shader uniform variable.
+         *
+         * @param shader The shader to which the texture will be bound.
+         * @param uniform The name of the uniform variable in the shader.
+         * @param unit The texture unit to bind the texture to.
+         */
+        void TextureUnit(Shader& shader, const std::string& uniform, GLuint unit);
+        /**
+         * Binds the texture for rendering.
+         */
+        void Bind()
+        { glBindTexture(this->type, this->ID); }
+        /**
+         * Unbinds the currently bound texture.
+         */
+        void Unbind()
+        { glBindTexture(this->type, 0); }
+        /**
+         * Deletes the texture object.
+         */
+        void Delete()
+        { glDeleteTextures(1, &this->ID); }
+
+      private:
+        GLuint ID;
+        GLenum type;
     };
   }
 }

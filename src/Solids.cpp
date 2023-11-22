@@ -20,31 +20,47 @@ void kdr::Solids::Solid::_applyPosition(const GLuint shaderID)
 }
 
 GLuint cubeIndices[] = {
-  0, 1, 3, // Front
-  0, 3, 2, // Front
-  1, 5, 7, // Right
-  1, 7, 3, // Right
-  5, 4, 6, // Back
-  5, 6, 7, // Back
-  4, 0, 2, // Left
-  4, 2, 6, // Left
-  2, 3, 7, // Top
-  2, 7, 6, // Top
-  4, 5, 1, // Bottom
-  4, 1, 0, // Bottom
+  0, 3, 9,    // Front
+  0, 9, 6,    // Front
+  4, 15, 21,  // Right
+  4, 21, 10,  // Right
+  16, 12, 18, // Back
+  16, 18, 22, // Back
+  13, 1, 7,   // Left
+  13, 7, 19,  // Left
+  8, 11, 23,  // Top
+  8, 23, 20,  // Top
+  14, 17, 5,  // Bottom
+  14, 5, 2,   // Bottom
 };
 
 kdr::Solids::Cube::Cube(const kdr::Space::Vec3& position, const float edgeLength) : kdr::Solids::Solid(position)
 {
   GLfloat cubeVertices[] = {
-    -(edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-    -(edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-    -(edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
-    -(edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
+    -(edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 0  000 FT
+    -(edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 1  000 LT
+    -(edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 2  000 BT
+     (edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 3  100 FT
+     (edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 4  100 RT
+     (edgeLength / 2.f), -(edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 5  100 BT
+    -(edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 6  010 FT
+    -(edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 7  010 LT
+    -(edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 8  010 TP
+     (edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 9  110 FT
+     (edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 10 110 RT
+     (edgeLength / 2.f),  (edgeLength / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 11 110 TP
+    -(edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 12 001 BK
+    -(edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 13 001 LT
+    -(edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 14 001 BT
+     (edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 15 101 RT
+     (edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 16 101 BK
+     (edgeLength / 2.f), -(edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 17 101 BT
+    -(edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 18 011 BK
+    -(edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 19 011 LT
+    -(edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 20 011 TP
+     (edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 21 111 RT
+     (edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 22 111 BK
+     (edgeLength / 2.f),  (edgeLength / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 23 111 TP
   };
 
   VAO = new kdr::Graphics::VAO();
@@ -55,8 +71,9 @@ kdr::Solids::Cube::Cube(const kdr::Space::Vec3& position, const float edgeLength
   VBO->Bind();
   EBO->Bind();
 
-  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
-  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 
   VAO->Unbind();
   VBO->Unbind();
@@ -72,31 +89,47 @@ void kdr::Solids::Cube::Render(const GLuint shaderID)
 }
 
 GLuint cuboidIndices[] = {
-  0, 1, 3, // Front
-  0, 3, 2, // Front
-  1, 5, 7, // Right
-  1, 7, 3, // Right
-  5, 4, 6, // Back
-  5, 6, 7, // Back
-  4, 0, 2, // Left
-  4, 2, 6, // Left
-  2, 3, 7, // Top
-  2, 7, 6, // Top
-  4, 5, 1, // Bottom
-  4, 1, 0, // Bottom
+  0, 3, 9,    // Front
+  0, 9, 6,    // Front
+  4, 15, 21,  // Right
+  4, 21, 10,  // Right
+  16, 12, 18, // Back
+  16, 18, 22, // Back
+  13, 1, 7,   // Left
+  13, 7, 19,  // Left
+  8, 11, 23,  // Top
+  8, 23, 20,  // Top
+  14, 17, 5,  // Bottom
+  14, 5, 2,   // Bottom
 };
 
 kdr::Solids::Cuboid::Cuboid(const kdr::Space::Vec3& position, const float length, const float height, const float width) : kdr::Solids::Solid(position)
 {
   GLfloat cuboidVertices[] = {
-    -(length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f,
-     (length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f,
-    -(length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f,
-     (length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f,
-    -(length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f,
-     (length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f,
-    -(length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f,
-     (length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f,
+    -(length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 0  000 FT
+    -(length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 1  000 LT
+    -(length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 2  000 BT
+     (length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 3  100 FT
+     (length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 4  100 RT
+     (length / 2.f), -(height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 5  100 BT
+    -(length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 6  010 FT
+    -(length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 7  010 LT
+    -(length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 8  010 TP
+     (length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 9  110 FT
+     (length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 10 110 RT
+     (length / 2.f),  (height / 2.f),  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 11 110 TP
+    -(length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 12 001 BK
+    -(length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 13 001 LT
+    -(length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 14 001 BT
+     (length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, // 15 101 RT
+     (length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, // 16 101 BK
+     (length / 2.f), -(height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 17 101 BT
+    -(length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 18 011 BK
+    -(length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 19 011 LT
+    -(length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 20 011 TP
+     (length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 21 111 RT
+     (length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, // 22 111 BK
+     (length / 2.f),  (height / 2.f), -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, // 23 111 TP
   };
 
   VAO = new kdr::Graphics::VAO();
@@ -107,8 +140,9 @@ kdr::Solids::Cuboid::Cuboid(const kdr::Space::Vec3& position, const float length
   VBO->Bind();
   EBO->Bind();
 
-  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
-  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 
   VAO->Unbind();
   VBO->Unbind();
@@ -124,22 +158,31 @@ void kdr::Solids::Cuboid::Render(const GLuint shaderID)
 }
 
 GLuint pyramidIndices[] = {
-  2, 3, 1, // Bottom
-  2, 1, 0, // Bottom
-  0, 1, 4, // Front
-  1, 3, 4, // Right
-  3, 2, 4, // Back
-  2, 0, 4, // Left
+  6, 9, 3,   // Bottom
+  6, 3, 0,   // Bottom
+  1, 3, 8,   // Front
+  1, 4, 12,  // Front
+  5, 11, 12, // Right
+  10, 7, 12, // Back
+  8, 2, 12,  // Left
 };
 
 kdr::Solids::Pyramid::Pyramid(const kdr::Space::Vec3& position, const float edgeLength, const float height) : kdr::Solids::Solid(position)
 {
   GLfloat pyramidVertices[] = {
-    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f,
-    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
-     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f,
-     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f,
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  1.f, // 0  000 BT
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, // 1  000 FT
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, // 2  000 LT
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  1.f, // 3  100 BT
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, // 4  100 FT
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, // 5  100 RT
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, // 6  001 BT
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, // 7  001 BK
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, // 8  001 LT
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, // 9  101 BT
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, // 10 101 BK
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, // 11 101 RT
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f, // 12 TIP
   };
 
   VAO = new kdr::Graphics::VAO();
@@ -150,8 +193,9 @@ kdr::Solids::Pyramid::Pyramid(const kdr::Space::Vec3& position, const float edge
   VBO->Bind();
   EBO->Bind();
 
-  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
-  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  VAO->LinkAtrib(*VBO, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  VAO->LinkAtrib(*VBO, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 
   VAO->Unbind();
   VBO->Unbind();

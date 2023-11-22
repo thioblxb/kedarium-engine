@@ -15,7 +15,7 @@ void kdr::Graphics::useFillmode()
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-kdr::Graphics::Shader::Shader(const char* vertexPath, const char* fragmentPath)
+kdr::Graphics::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
   GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -91,4 +91,35 @@ void kdr::Graphics::VAO::LinkAtrib(kdr::Graphics::VBO& VBO, GLuint layout, GLuin
 {
   glVertexAttribPointer(layout, size, type, GL_FALSE, stride, offset);
   glEnableVertexAttribArray(layout);
+}
+
+kdr::Graphics::Texture::Texture(const std::string& path, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
+{
+  this->type = type;
+
+  int textureWidth;
+  int textureHeight;
+  unsigned char* data;
+
+  kdr::Image::loadFromPNG(path, &data, textureWidth, textureHeight);
+
+  glGenTextures(1, &ID);
+  glActiveTexture(slot);
+  glBindTexture(type, ID);
+  glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexImage2D(type, 0, GL_RGBA, textureWidth, textureHeight, 0, format, pixelType, data);
+  glBindTexture(type, 0);
+}
+
+kdr::Graphics::Texture::~Texture()
+{
+  glDeleteTextures(1, &ID);
+}
+
+void kdr::Graphics::Texture::TextureUnit(kdr::Graphics::Shader& shader, const std::string& uniform, GLuint unit)
+{
+  shader.Use();
+  GLuint tex0Location = glGetUniformLocation(shader.getID(), uniform.c_str());
+  glUniform1i(tex0Location, unit);
 }

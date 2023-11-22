@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <string>
 
 #include "Keys.hpp"
 #include "Space.hpp"
@@ -138,7 +139,7 @@ namespace kdr
        * @param shaderID The ID of the shader program.
        * @param uniformName The name of the uniform variable in the shader.
        */
-      void applyMatrix(const GLuint shaderID, const char* uniformName);
+      void applyMatrix(const GLuint shaderID, const std::string& uniformName);
 
     private:
       kdr::Space::Vec3 position {0.f, 0.f,  3.f};

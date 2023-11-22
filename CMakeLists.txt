@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED 11)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(PNG REQUIRED)
 
 # Subdirectories
 add_subdirectory(src)
