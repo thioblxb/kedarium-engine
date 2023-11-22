@@ -54,6 +54,17 @@ class MainWindow : public kdr::Window
       {
         for (int x = 0; x < 3; x++)
         {
+          kdr::Solids::Cube* cube = new kdr::Solids::Cube(
+            {(x - 1) * 2.f, -2.f, (z - 1) * 2.f},
+            1.f
+          );
+          cubes.push_back(cube);
+        }
+      }
+      for (int z = 0; z < 3; z++)
+      {
+        for (int x = 0; x < 3; x++)
+        {
           kdr::Solids::Cuboid* cuboid = new kdr::Solids::Cuboid(
             {(x - 1) * 4.f, 0.f, (z - 1) * 2.f},
             2.f,
@@ -61,6 +72,18 @@ class MainWindow : public kdr::Window
             1.f
           );
           cuboids.push_back(cuboid);
+        }
+      }
+      for (int z = 0; z < 3; z++)
+      {
+        for (int x = 0; x < 3; x++)
+        {
+          kdr::Solids::Pyramid* pyramid = new kdr::Solids::Pyramid(
+            {(x - 1) * 2.f, 2.f, (z - 1) * 2.f},
+            1.f,
+            1.f
+          );
+          pyramids.push_back(pyramid);
         }
       }
     }
@@ -111,9 +134,18 @@ class MainWindow : public kdr::Window
     void render()
     {
       bindShader(defaultShader);
+
+      for (kdr::Solids::Cube* cube : cubes)
+      {
+        cube->Render(defaultShader.getID());
+      }
       for (kdr::Solids::Cuboid* cuboid : cuboids)
       {
         cuboid->Render(defaultShader.getID());
+      }
+      for (kdr::Solids::Pyramid* pyramid : pyramids)
+      {
+        pyramid->Render(defaultShader.getID());
       }
     }
 
@@ -122,7 +154,9 @@ class MainWindow : public kdr::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
+    std::vector<kdr::Solids::Cube*> cubes;
     std::vector<kdr::Solids::Cuboid*> cuboids;
+    std::vector<kdr::Solids::Pyramid*> pyramids;
 
     bool canUseFullscreen {true};
 };

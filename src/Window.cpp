@@ -85,6 +85,7 @@ void kdr::Window::_initializeOpenGLSettings()
   glPointSize(5.f);
   glfwSetFramebufferSizeCallback(glfwWindow, framebufferSizeCallback);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
 }
 
 void kdr::Window::_initialize()
