@@ -47,48 +47,22 @@ class MainWindow : public kdr::Window
     {
       defaultShader.Delete();
       boxTexture.Delete();
+      floorTexture.Delete();
     }
 
     void setup()
     {
       boxTexture.TextureUnit(defaultShader, "tex0", 0);
-      coneTexture.TextureUnit(defaultShader, "tex0", 0);
-      nukeTexture.TextureUnit(defaultShader, "tex0", 0);
 
       for (int z = 0; z < 3; z++)
       {
         for (int x = 0; x < 3; x++)
         {
           kdr::Solids::Cube* cube = new kdr::Solids::Cube(
-            {(x - 1) * 2.f, -2.f, (z - 1) * 2.f},
+            {(x - 1) * 2.f, 0.5f, (z - 1) * 2.f},
             1.f
           );
           cubes.push_back(cube);
-        }
-      }
-      for (int z = 0; z < 3; z++)
-      {
-        for (int x = 0; x < 3; x++)
-        {
-          kdr::Solids::Cuboid* cuboid = new kdr::Solids::Cuboid(
-            {(x - 1) * 4.f, 0.f, (z - 1) * 2.f},
-            2.f,
-            1.f,
-            1.f
-          );
-          cuboids.push_back(cuboid);
-        }
-      }
-      for (int z = 0; z < 3; z++)
-      {
-        for (int x = 0; x < 3; x++)
-        {
-          kdr::Solids::Pyramid* pyramid = new kdr::Solids::Pyramid(
-            {(x - 1) * 2.f, 2.f, (z - 1) * 2.f},
-            0.5f,
-            1.f
-          );
-          pyramids.push_back(pyramid);
         }
       }
     }
@@ -140,20 +114,12 @@ class MainWindow : public kdr::Window
     {
       bindShader(defaultShader);
 
-      nukeTexture.Bind();
+      floorTexture.Bind();
+      plane.Render(defaultShader.getID());
+      boxTexture.Bind();
       for (kdr::Solids::Cube* cube : cubes)
       {
         cube->Render(defaultShader.getID());
-      }
-      boxTexture.Bind();
-      for (kdr::Solids::Cuboid* cuboid : cuboids)
-      {
-        cuboid->Render(defaultShader.getID());
-      }
-      coneTexture.Bind();
-      for (kdr::Solids::Pyramid* pyramid : pyramids)
-      {
-        pyramid->Render(defaultShader.getID());
       }
     }
 
@@ -169,23 +135,19 @@ class MainWindow : public kdr::Window
       GL_RGBA,
       GL_UNSIGNED_BYTE
     };
-    kdr::Graphics::Texture coneTexture {
-      "resources/Textures/cone.png",
+    kdr::Graphics::Texture floorTexture {
+      "resources/Textures/floor.png",
       GL_TEXTURE_2D,
       GL_TEXTURE0,
       GL_RGBA,
       GL_UNSIGNED_BYTE
     };
-    kdr::Graphics::Texture nukeTexture {
-      "resources/Textures/nuke.png",
-      GL_TEXTURE_2D,
-      GL_TEXTURE0,
-      GL_RGBA,
-      GL_UNSIGNED_BYTE
+    kdr::Solids::Plane plane {
+      {0.f, 0.f, 0.f},
+      10.f,
+      10.f
     };
     std::vector<kdr::Solids::Cube*> cubes;
-    std::vector<kdr::Solids::Cuboid*> cuboids;
-    std::vector<kdr::Solids::Pyramid*> pyramids;
 
     bool canUseFullscreen {true};
 };
